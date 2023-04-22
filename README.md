@@ -1,5 +1,7 @@
 ## Flappy Bird AI
-A neuro-evolution simulation of flappy birds implemented in [rust](https://www.rust-lang.org/) using [macroquad](https://macroquad.rs/)
+AI learns to play flappy bird. 
+
+This is a neuro-evolution simulation of flappy birds implemented in [rust](https://www.rust-lang.org/) using [macroquad](https://macroquad.rs/)
 
 ### Demo
 [![youtube](https://img.youtube.com/vi/Ea_N1CJwMR8/0.jpg)](https://www.youtube.com/watch?v=Ea_N1CJwMR8)
