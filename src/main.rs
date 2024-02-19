@@ -36,6 +36,14 @@ async fn main() {
                 stats = simulation.update(&editor.settings).unwrap_or(stats);
             }
         }
+        if editor.settings.save {
+            editor.settings.save = false;
+            simulation.save();
+        }
+        if editor.settings.load {
+            editor.settings.load = false;
+            simulation.load();
+        }
 
         if is_key_pressed(KeyCode::Q) {
             break;

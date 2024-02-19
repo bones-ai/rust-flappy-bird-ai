@@ -30,6 +30,12 @@ impl Bird {
         }
     }
 
+    pub fn with_net(net: &Net) -> Self {
+        let mut new_bird = Bird::new();
+        new_bird.brain = net.clone();
+        new_bird
+    }
+
     pub fn with_brain(other: &Bird) -> Self {
         let mut new_bird = Bird::new();
         new_bird.brain = other.brain.clone();
@@ -105,6 +111,18 @@ impl Bird {
 
     pub fn mutate(&mut self) {
         self.brain.mutate();
+    }
+
+    pub fn save(&self) {
+        self.brain
+            .save_to_disk("output.brain")
+            .expect("Failed to save brain file");
+    }
+
+    pub fn load(&self) -> Net {
+        self.brain
+            .load_from_disk("output.brain")
+            .expect("Failed to load brain")
     }
 
     fn mark_dead(&mut self) {
