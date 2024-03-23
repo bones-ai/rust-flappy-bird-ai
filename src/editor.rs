@@ -10,6 +10,8 @@ pub struct Settings {
     pub is_frame_skip: bool,
     pub is_show_egui: bool,
     pub show_one_bird: bool,
+    pub save: bool,
+    pub load: bool,
 }
 
 pub struct Editor {
@@ -25,6 +27,8 @@ impl Settings {
             is_frame_skip: false,
             is_show_egui: true,
             show_one_bird: false,
+            save: false,
+            load: false,
         }
     }
 }
@@ -82,6 +86,12 @@ impl Editor {
                             ui.checkbox(&mut self.settings.is_pause, "Pause");
                             if ui.add(egui::Button::new("Restart")).clicked() {
                                 self.settings.is_restart = true;
+                            }
+                            if ui.add(egui::Button::new("Save")).clicked() {
+                                self.settings.save = true;
+                            }
+                            if ui.add(egui::Button::new("Load")).clicked() {
+                                self.settings.load = true;
                             }
                         });
                 });

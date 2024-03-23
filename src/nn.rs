@@ -1,14 +1,17 @@
 use macroquad::rand::gen_range;
+use serde::{Deserialize, Serialize};
+use std::fs::File;
+use std::io::{self, BufReader, BufWriter};
 
 use crate::*;
 
-#[derive(Clone)]
+#[derive(Clone, Serialize, Deserialize)]
 pub struct Net {
     n_inputs: usize,
     layers: Vec<Layer>,
 }
 
-#[derive(Clone)]
+#[derive(Clone, Serialize, Deserialize)]
 struct Layer {
     nodes: Vec<Vec<f64>>,
 }
@@ -56,6 +59,18 @@ impl Net {
 
     pub fn mutate(&mut self) {
         self.layers.iter_mut().for_each(|l| l.mutate());
+    }
+
+    pub fn save_to_disk(&self, filename: &str) -> io::Result<()> {
+        let file = File::create(filename)?;
+        let writer = BufWriter::new(file);
+        bincode::serialize_into(writer, self).map_err(|e| io::Error::new(io::ErrorKind::Other, e))
+    }
+
+    pub fn load_from_disk(&self, filename: &str) -> io::Result<Self> {
+        let file = File::open(filename)?;
+        let reader = BufReader::new(file);
+        bincode::deserialize_from(reader).map_err(|e| io::Error::new(io::ErrorKind::Other, e))
     }
 }
 

@@ -68,6 +68,24 @@ impl Simulation {
         self.birds.iter().for_each(|b| b.draw());
     }
 
+    pub fn save(&self) {
+        let bird = self.birds.iter().filter(|b| !b.is_dead).next().unwrap();
+        bird.save();
+    }
+
+    pub fn load(&mut self) -> () {
+        let bird = self.birds.first().unwrap();
+        let net = bird.load();
+        let mut new_birds = Vec::new();
+
+        for _ in 0..NUM_BIRDS {
+            let mut new_bird = Bird::with_net(&net);
+            new_bird.mutate();
+            new_birds.push(new_bird);
+        }
+        self.birds = new_birds;
+    }
+
     fn selection(&self) -> Vec<Bird> {
         let mut rng = thread_rng();
         let gene_pool = self.calc_fitness();
